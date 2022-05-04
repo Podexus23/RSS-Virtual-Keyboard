@@ -1,11 +1,11 @@
 import './style/main.scss';
-import Board from './code/board';
+import board from './code/board';
+import textArea from './code/textarea';
 
-console.log('hi');
+const renderPage = (function renderMainPage() {
+  const { body } = document;
+  body.append(textArea());
+  body.append(board());
+});
 
-const textarea = document.createElement('textarea');
-const { body } = document;
-body.append(textarea);
-
-const amigo = new Board();
-amigo.who();
+renderPage();
