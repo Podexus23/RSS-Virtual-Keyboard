@@ -13,7 +13,12 @@ module.exports = (env) => ({
   devServer: {
     static: './dist',
     hot: true,
-    client: false,
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
   },
   output: {
     filename: '[fullhash].bundle.js',
