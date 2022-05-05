@@ -3,4 +3,19 @@
   width: 90%;
   height: 40vh;
   max-width: 1000px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.board-row {
+  height: 20%;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  // display: grid;
+  // justify-content: center;
+  // grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
 }

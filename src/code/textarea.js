@@ -1,6 +1,10 @@
 const textArea = (function makeTextArea() {
   const mainArea = document.createElement('textarea');
-  return mainArea;
+
+  function addContent(text) {
+    mainArea.textContent += text;
+  }
+  return { mainArea, addContent };
 });
 
 export default textArea;

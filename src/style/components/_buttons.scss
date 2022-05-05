@@ -1,0 +1,18 @@
+.board-button {
+  max-width: 60px;
+  width: 100%;
+  padding: 15px 0px;
+  background-color: #853f3f5c;
+  text-align: center;
+
+  user-select: none;
+  cursor: pointer;
+}
+
+.double-button {
+  max-width: 120px;
+}
+
+.active {
+  background-color: #f977775c;
+}
