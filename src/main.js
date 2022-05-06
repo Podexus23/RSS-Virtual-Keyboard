@@ -9,7 +9,7 @@ const renderPage = (function renderMainPage() {
   function addMessages() {
     const howToChange = document.createElement('p');
     const workingOS = document.createElement('p');
-    howToChange.innerHTML = 'To change language press Ctrl + Alt';
+    howToChange.innerHTML = 'To change language press Ctrl Left + Alt Left';
     workingOS.innerHTML = 'Keyboard made for Windows OS';
     return { howToChange, workingOS };
   }

@@ -433,7 +433,6 @@ const board = (function makeKeyboard(lang = 'En') {
     button.classList.add('board-button');
     if (className) button.classList.add(className);
     if (coords) button.dataset.coords = coords;
-    // if(className === 'spec-button') {button.textContent = name}
     button.textContent = name;
     return button;
   }
@@ -520,20 +519,28 @@ const board = (function makeKeyboard(lang = 'En') {
       }
     });
   }
+  function tabDown(e) {
+    e.preventDefault();
+    const textarea = document.querySelector('textarea');
+    textarea.value += '\t';
+  }
+  function charKeyDown(e) {
+    e.preventDefault();
+    const textarea = document.querySelector('textarea');
+    const buttons = document.querySelectorAll('.board-button');
+
+    buttons.forEach((elem) => {
+      const coord = elem.dataset.coords.split(',');
+      if (e.code.toLowerCase() === coord[2].toLowerCase()) {
+        textarea.value += elem.textContent;
+      }
+    });
+  }
   // special buttons mouse reaction
   function runSpecialButtonByMouse(target) {
     console.log(target);
   }
-  // base functions
-  // function getAChar(coords, shift = false) {
-  //   const [x, y] = coords.split(',');
-  //   let char;
-  //   if (shift) {
-  //     char = allButtons[x][y][`shift${language}`];
-  //   } else {
-  //     char = allButtons[x][y][`key${language}`];
-  //   } return char;
-  // }
+
   // regulation of mouse and keyboard control
   function mouseClickOnBoard(e) {
     if (!e.target.classList.contains('board-button')) return;
@@ -551,7 +558,19 @@ const board = (function makeKeyboard(lang = 'En') {
   }
 
   function keyboardOnDown(e) {
-    // пока да, потом удалить
+    const special = ['CapsLock', 'ShiftRight', 'ShiftLeft', 'ControlLeft', 'ControlRight', 'Tab'];
+    const textarea = document.querySelector('textarea');
+
+    if (e.repeat && special.includes(e.code)) {
+      e.preventDefault();
+      textarea.focus();
+      return;
+    }
+
+    if (e.code === 'Tab') tabDown(e);
+    if (e.key.length === 1) charKeyDown(e);
+    textarea.focus();
+
     console.log(e);
 
     if (e.key.length > 1) {
@@ -572,6 +591,7 @@ const board = (function makeKeyboard(lang = 'En') {
     }
 
     if (e.code === 'AltLeft' && e.ctrlKey) changeLanguage();
+    if (e.code === 'ControlLeft' && e.altKey) changeLanguage();
   }
 
   function keyboardOnUp(e) {
@@ -601,23 +621,19 @@ const board = (function makeKeyboard(lang = 'En') {
     mainBlock.addEventListener('click', (e) => {
       mouseClickOnBoard(e);
     });
-    mainBlock.addEventListener('mousedown', (e) => {
-      if (!e.target.dataset.coords) return;
-      const [x, y] = e.target.dataset.coords.split(',');
-      if (allButtons[x][y][`key${language}`] !== 'Shift') return;
-      showShifted(e);
-    });
-    mainBlock.addEventListener('mouseup', (e) => {
-      if (!e.target.dataset.coords) return;
-      const [x, y] = e.target.dataset.coords.split(',');
-      if (allButtons[x][y][`key${language}`] !== 'Shift') return;
-      hideShifted(e);
-    });
-    document.addEventListener('keydown', (e) => {
-      const special = ['CapsLock', 'ShiftRight', 'ShiftLeft', 'ControlLeft', 'ControlRight'];
-      if (e.repeat && special.includes(e.code)) return;
-      keyboardOnDown(e);
-    });
+    // mainBlock.addEventListener('mousedown', (e) => {
+    //   if (!e.target.dataset.coords) return;
+    //   const [x, y] = e.target.dataset.coords.split(',');
+    //   if (allButtons[x][y][`key${language}`] !== 'Shift') return;
+    //   showShifted(e);
+    // });
+    // mainBlock.addEventListener('mouseup', (e) => {
+    //   if (!e.target.dataset.coords) return;
+    //   const [x, y] = e.target.dataset.coords.split(',');
+    //   if (allButtons[x][y][`key${language}`] !== 'Shift') return;
+    //   hideShifted(e);
+    // });
+    document.addEventListener('keydown', keyboardOnDown);
     document.addEventListener('keyup', keyboardOnUp);
 
     return mainBlock;
