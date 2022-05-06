@@ -4,9 +4,9 @@ import textArea from './code/textarea';
 
 const renderPage = (function renderMainPage() {
   const { body } = document;
-  const { mainArea, addContent } = textArea();
+  const { mainArea } = textArea();
   body.append(mainArea);
-  body.append(board(addContent));
+  body.append(board());
 });
 
 renderPage();

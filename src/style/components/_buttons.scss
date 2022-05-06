@@ -9,10 +9,20 @@
   cursor: pointer;
 }
 
-.double-button {
-  max-width: 120px;
+.spec-button {
+  max-width: 100px;
+}
+
+.space-button {
+  min-width: 100px;
+  width: 100%;
+  max-width: 150px;
 }
 
 .active {
   background-color: #f977775c;
+}
+
+.caps {
+  background-color: #f831315c;
 }

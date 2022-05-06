@@ -1,638 +1,4 @@
-const board = (function makeKeyboard(textField) {
-  /* const enAllButtons = [
-    [
-      {
-        keyEn: '`',
-        shiftEn: '~',
-        code: 'Backquote',
-      },
-      {
-        keyEn: '1',
-        shiftEn: '!',
-        code: 'Digit1',
-      },
-      {
-        keyEn: '2',
-        shiftEn: '@',
-        code: 'Digit2',
-      },
-      {
-        keyEn: '3',
-        shiftEn: '#',
-        code: 'Digit3',
-      },
-      {
-        keyEn: '4',
-        shiftEn: '$',
-        code: 'Digit4',
-      },
-      {
-        keyEn: '5',
-        shiftEn: '%',
-        code: 'Digit5',
-      },
-      {
-        keyEn: '6',
-        shiftEn: '^',
-        code: 'Digit6',
-      },
-      {
-        keyEn: '7',
-        shiftEn: '&',
-        code: 'Digit7',
-      },
-      {
-        keyEn: '8',
-        shiftEn: '*',
-        code: 'Digit8',
-      },
-      {
-        keyEn: '9',
-        shiftEn: '(',
-        code: 'Digit9',
-      },
-      {
-        keyEn: '0',
-        shiftEn: ')',
-        code: 'Digit0',
-      },
-      {
-        keyEn: '-',
-        shiftEn: '_',
-        code: 'Minus',
-      },
-      {
-        keyEn: '=',
-        shiftEn: '+',
-        code: 'Equal',
-      },
-      {
-        keyEn: 'Backspace',
-        code: 'Backspace',
-      },
-    ], [
-      {
-        keyEn: 'Tab',
-        code: 'Tab',
-      },
-      {
-        keyEn: 'q',
-        shiftEn: 'Q',
-        code: 'keyEnQ',
-      },
-      {
-        keyEn: 'w',
-        shiftEn: 'W',
-        code: 'keyEnW',
-      },
-      {
-        keyEn: 'e',
-        shiftEn: 'E',
-        code: 'keyEnE',
-      },
-      {
-        keyEn: 'r',
-        shiftEn: 'R',
-        code: 'keyEnR',
-      },
-      {
-        keyEn: 't',
-        shiftEn: 'T',
-        code: 'keyEnT',
-      },
-      {
-        keyEn: 'y',
-        shiftEn: 'Y',
-        code: 'keyEnY',
-      },
-      {
-        keyEn: 'u',
-        shiftEn: 'U',
-        code: 'keyEnU',
-      },
-      {
-        keyEn: 'i',
-        shiftEn: 'I',
-        code: 'keyEnI',
-      },
-      {
-        keyEn: 'o',
-        shiftEn: 'O',
-        code: 'keyEnO',
-      },
-      {
-        keyEn: 'p',
-        shiftEn: 'P',
-        code: 'keyEnP',
-      },
-      {
-        keyEn: '[',
-        shiftEn: '{',
-        code: 'BracketLeft',
-      },
-      {
-        keyEn: ']',
-        shiftEn: '}',
-        code: 'BracketRight',
-      },
-      {
-        keyEn: '\\',
-        shiftEn: '|',
-        code: 'Backslash',
-      },
-      {
-        keyEn: 'Delete',
-        code: 'Delete',
-      },
-    ], [
-      {
-        keyEn: 'CapsLock',
-        code: 'CapsLock',
-      },
-      {
-        keyEn: 'a',
-        shiftEn: 'A',
-        code: 'keyEnA',
-      },
-      {
-        keyEn: 's',
-        shiftEn: 'S',
-        code: 'keyEnS',
-      },
-      {
-        keyEn: 'd',
-        shiftEn: 'D',
-        code: 'keyEnD',
-      },
-      {
-        keyEn: 'f',
-        shiftEn: 'F',
-        code: 'keyEnF',
-      },
-      {
-        keyEn: 'g',
-        shiftEn: 'G',
-        code: 'keyEnG',
-      },
-      {
-        keyEn: 'h',
-        shiftEn: 'H',
-        code: 'keyEnH',
-      },
-      {
-        keyEn: 'j',
-        shiftEn: 'J',
-        code: 'keyEnJ',
-      },
-      {
-        keyEn: 'k',
-        shiftEn: 'K',
-        code: 'keyEnK',
-      },
-      {
-        keyEn: 'l',
-        shiftEn: 'L',
-        code: 'keyEnL',
-      },
-      {
-        keyEn: ';',
-        shiftEn: ':',
-        code: 'Semicolon',
-      },
-      {
-        keyEn: "'",
-        shiftEn: '"',
-        code: 'Quote',
-      },
-      {
-        keyEn: 'Enter',
-        code: 'Enter',
-      },
-    ], [
-      {
-        keyEn: 'Shift',
-        code: 'ShiftLeft',
-      },
-      {
-        keyEn: 'z',
-        shiftEn: 'Z',
-        code: 'keyEnZ',
-      },
-      {
-        keyEn: 'x',
-        shiftEn: 'X',
-        code: 'keyEnX',
-      },
-      {
-        keyEn: 'c',
-        shiftEn: 'C',
-        code: 'keyEnC',
-      },
-      {
-        keyEn: 'v',
-        shiftEn: 'V',
-        code: 'keyEnV',
-      },
-      {
-        keyEn: 'b',
-        shiftEn: 'B',
-        code: 'keyEnB',
-      },
-      {
-        keyEn: 'n',
-        shiftEn: 'N',
-        code: 'keyEnN',
-      },
-      {
-        keyEn: 'm',
-        shiftEn: 'M',
-        code: 'keyEnM',
-      },
-      {
-        keyEn: ',',
-        shiftEn: '<',
-        code: 'Comma',
-      },
-      {
-        keyEn: '.',
-        shiftEn: '>',
-        code: 'Period',
-      },
-      {
-        keyEn: '/',
-        shiftEn: '?',
-        code: 'Slash',
-      },
-      {
-        keyEn: 'ArrowUp',
-        code: 'ArrowUp',
-      },
-      {
-        keyEn: 'Shift',
-        code: 'ShiftRight',
-      },
-    ], [
-      {
-        keyEn: 'Control',
-        code: 'ControlLeft',
-      },
-      {
-        keyEn: 'Meta',
-        // change to MetaLeft
-        code: 'MetaRight',
-      },
-      {
-        keyEn: 'Alt',
-        code: 'AltLeft',
-      },
-      {
-        keyEn: ' ',
-        code: 'Space',
-      },
-      {
-        keyEn: 'Alt',
-        code: 'AltRight',
-      },
-      {
-        keyEn: 'ArrowLeft',
-        code: 'ArrowLeft',
-      },
-      {
-        keyEn: 'ArrowDown',
-        code: 'ArrowDown',
-      },
-      {
-        keyEn: 'ArrowRight',
-        code: 'ArrowRight',
-      },
-      {
-        keyEn: 'Control',
-        code: 'ControlRight',
-      },
-    ]];
-  const ruAllButtons = [
-    [
-      {
-        keyRu: 'ё',
-        shiftRu: 'Ё',
-        code: 'Backquote',
-      },
-      {
-        keyRu: '1',
-        shiftRu: '!',
-        code: 'Digit1',
-      },
-      {
-        keyRu: '2',
-        shiftRu: '"',
-        code: 'Digit2',
-      },
-      {
-        keyRu: '3',
-        shiftRu: '№',
-        code: 'Digit3',
-      },
-      {
-        keyRu: '4',
-        shiftRu: ';',
-        code: 'Digit4',
-      },
-      {
-        keyRu: '5',
-        shiftRu: '%',
-        code: 'Digit5',
-      },
-      {
-        keyRu: '6',
-        shiftRu: ':',
-        code: 'Digit6',
-      },
-      {
-        keyRu: '7',
-        shiftRu: '?',
-        code: 'Digit7',
-      },
-      {
-        keyRu: '8',
-        shiftRu: '*',
-        code: 'Digit8',
-      },
-      {
-        keyRu: '9',
-        shiftRu: '(',
-        code: 'Digit9',
-      },
-      {
-        keyRu: '0',
-        shiftRu: ')',
-        code: 'Digit0',
-      },
-      {
-        keyRu: '-',
-        shiftRu: '_',
-        code: 'Minus',
-      },
-      {
-        keyRu: '=',
-        shiftRu: '+',
-        code: 'Equal',
-      },
-      {
-        keyRu: 'Backspace',
-        code: 'Backspace',
-      },
-    ], [
-      {
-        keyRu: 'Tab',
-        code: 'Tab',
-      },
-      {
-        keyRu: 'й',
-        shiftRu: 'Й',
-        code: 'keyRuQ',
-      },
-      {
-        keyRu: 'ц',
-        shiftRu: 'Ц',
-        code: 'keyRuW',
-      },
-      {
-        keyRu: 'у',
-        shiftRu: 'У',
-        code: 'keyRuE',
-      },
-      {
-        keyRu: 'к',
-        shiftRu: 'К',
-        code: 'keyRuR',
-      },
-      {
-        keyRu: 'е',
-        shiftRu: 'Е',
-        code: 'keyRuT',
-      },
-      {
-        keyRu: 'н',
-        shiftRu: 'Н',
-        code: 'keyRuY',
-      },
-      {
-        keyRu: 'г',
-        shiftRu: 'Г',
-        code: 'keyRuU',
-      },
-      {
-        keyRu: 'ш',
-        shiftRu: 'Ш',
-        code: 'keyRuI',
-      },
-      {
-        keyRu: 'щ',
-        shiftRu: 'Щ',
-        code: 'keyRuO',
-      },
-      {
-        keyRu: 'з',
-        shiftRu: 'З',
-        code: 'keyRuP',
-      },
-      {
-        keyRu: 'х',
-        shiftRu: 'Х',
-        code: 'BracketLeft',
-      },
-      {
-        keyRu: 'ъ',
-        shiftRu: 'Ъ',
-        code: 'BracketRight',
-      },
-      {
-        keyRu: '\\',
-        shiftRu: '/',
-        code: 'Backslash',
-      },
-      {
-        keyRu: 'Delete',
-        code: 'Delete',
-      },
-    ], [
-      {
-        keyRu: 'CapsLock',
-        code: 'CapsLock',
-      },
-      {
-        keyRu: 'ф',
-        shiftRu: 'Ф',
-        code: 'keyRuA',
-      },
-      {
-        keyRu: 'ы',
-        shiftRu: 'Ы',
-        code: 'keyRuS',
-      },
-      {
-        keyRu: 'в',
-        shiftRu: 'В',
-        code: 'keyRuD',
-      },
-      {
-        keyRu: 'а',
-        shiftRu: 'А',
-        code: 'keyRuF',
-      },
-      {
-        keyRu: 'п',
-        shiftRu: 'П',
-        code: 'keyRuG',
-      },
-      {
-        keyRu: 'р',
-        shiftRu: 'Р',
-        code: 'keyRuH',
-      },
-      {
-        keyRu: 'о',
-        shiftRu: 'О',
-        code: 'keyRuJ',
-      },
-      {
-        keyRu: 'л',
-        shiftRu: 'Л',
-        code: 'keyRuK',
-      },
-      {
-        keyRu: 'д',
-        shiftRu: 'Д',
-        code: 'keyRuL',
-      },
-      {
-        keyRu: 'ж',
-        shiftRu: 'Ж',
-        code: 'Semicolon',
-      },
-      {
-        keyRu: 'э',
-        shiftRu: 'Э',
-        code: 'Quote',
-      },
-      {
-        keyRu: 'Enter',
-        code: 'Enter',
-      },
-    ], [
-      {
-        keyRu: 'Shift',
-        code: 'ShiftLeft',
-      },
-      {
-        keyRu: 'я',
-        shiftRu: 'Я',
-        code: 'keyRuZ',
-      },
-      {
-        keyRu: 'ч',
-        shiftRu: 'Ч',
-        code: 'keyRuX',
-      },
-      {
-        keyRu: 'с',
-        shiftRu: 'С',
-        code: 'keyRuC',
-      },
-      {
-        keyRu: 'м',
-        shiftRu: 'М',
-        code: 'keyRuV',
-      },
-      {
-        keyRu: 'и',
-        shiftRu: 'И',
-        code: 'keyRuB',
-      },
-      {
-        keyRu: 'т',
-        shiftRu: 'Т',
-        code: 'keyRuN',
-      },
-      {
-        keyRu: 'ь',
-        shiftRu: 'Ь',
-        code: 'keyRuM',
-      },
-      {
-        keyRu: 'б',
-        shiftRu: 'Б',
-        code: 'Comma',
-      },
-      {
-        keyRu: 'ю',
-        shiftRu: 'Ю',
-        code: 'Period',
-      },
-      {
-        keyRu: '.',
-        shiftRu: ',',
-        code: 'Slash',
-      },
-      {
-        keyRu: 'ArrowUp',
-        code: 'ArrowUp',
-      },
-      {
-        keyRu: 'Shift',
-        code: 'ShiftRight',
-      },
-    ], [
-      {
-        keyRu: 'Control',
-        code: 'ControlLeft',
-      },
-      {
-        keyRu: 'Meta',
-        code: 'MetaRight',
-      },
-      {
-        keyRu: 'Alt',
-        code: 'AltLeft',
-      },
-      {
-        keyRu: ' ',
-        code: 'Space',
-      },
-      {
-        keyRu: 'AltGraph',
-        code: 'AltRight',
-      },
-      {
-        keyRu: 'ArrowLeft',
-        code: 'ArrowLeft',
-      },
-      {
-        keyRu: 'ArrowDown',
-        code: 'ArrowDown',
-      },
-      {
-        keyRu: 'ArrowRight',
-        code: 'ArrowRight',
-      },
-      {
-        keyRu: 'Control',
-        code: 'ControlRight',
-      },
-    ]];
-
-  function makeWholeObject() {
-    const mainArray = [];
-    enAllButtons.forEach((row, i) => {
-      const rowArray = [];
-      row.forEach((elem, x) => {
-        rowArray.push({ ...elem, ...ruAllButtons[i][x] });
-      });
-      mainArray.push(rowArray);
-    });
-    return mainArray;
-  } */
-
+const board = (function makeKeyboard(lang = 'En') {
   const allButtons = [
     [
       {
@@ -741,70 +107,70 @@ const board = (function makeKeyboard(textField) {
       {
         keyEn: 'q',
         shiftEn: 'Q',
-        code: 'keyRuQ',
+        code: 'keyQ',
         keyRu: 'й',
         shiftRu: 'Й',
       },
       {
         keyEn: 'w',
         shiftEn: 'W',
-        code: 'keyRuW',
+        code: 'keyW',
         keyRu: 'ц',
         shiftRu: 'Ц',
       },
       {
         keyEn: 'e',
         shiftEn: 'E',
-        code: 'keyRuE',
+        code: 'keyE',
         keyRu: 'у',
         shiftRu: 'У',
       },
       {
         keyEn: 'r',
         shiftEn: 'R',
-        code: 'keyRuR',
+        code: 'keyR',
         keyRu: 'к',
         shiftRu: 'К',
       },
       {
         keyEn: 't',
         shiftEn: 'T',
-        code: 'keyRuT',
+        code: 'keyT',
         keyRu: 'е',
         shiftRu: 'Е',
       },
       {
         keyEn: 'y',
         shiftEn: 'Y',
-        code: 'keyRuY',
+        code: 'keyY',
         keyRu: 'н',
         shiftRu: 'Н',
       },
       {
         keyEn: 'u',
         shiftEn: 'U',
-        code: 'keyRuU',
+        code: 'keyU',
         keyRu: 'г',
         shiftRu: 'Г',
       },
       {
         keyEn: 'i',
         shiftEn: 'I',
-        code: 'keyRuI',
+        code: 'keyI',
         keyRu: 'ш',
         shiftRu: 'Ш',
       },
       {
         keyEn: 'o',
         shiftEn: 'O',
-        code: 'keyRuO',
+        code: 'keyO',
         keyRu: 'щ',
         shiftRu: 'Щ',
       },
       {
         keyEn: 'p',
         shiftEn: 'P',
-        code: 'keyRuP',
+        code: 'keyP',
         keyRu: 'з',
         shiftRu: 'З',
       },
@@ -844,63 +210,63 @@ const board = (function makeKeyboard(textField) {
       {
         keyEn: 'a',
         shiftEn: 'A',
-        code: 'keyRuA',
+        code: 'keyA',
         keyRu: 'ф',
         shiftRu: 'Ф',
       },
       {
         keyEn: 's',
         shiftEn: 'S',
-        code: 'keyRuS',
+        code: 'keyS',
         keyRu: 'ы',
         shiftRu: 'Ы',
       },
       {
         keyEn: 'd',
         shiftEn: 'D',
-        code: 'keyRuD',
+        code: 'keyD',
         keyRu: 'в',
         shiftRu: 'В',
       },
       {
         keyEn: 'f',
         shiftEn: 'F',
-        code: 'keyRuF',
+        code: 'keyF',
         keyRu: 'а',
         shiftRu: 'А',
       },
       {
         keyEn: 'g',
         shiftEn: 'G',
-        code: 'keyRuG',
+        code: 'keyG',
         keyRu: 'п',
         shiftRu: 'П',
       },
       {
         keyEn: 'h',
         shiftEn: 'H',
-        code: 'keyRuH',
+        code: 'keyH',
         keyRu: 'р',
         shiftRu: 'Р',
       },
       {
         keyEn: 'j',
         shiftEn: 'J',
-        code: 'keyRuJ',
+        code: 'keyJ',
         keyRu: 'о',
         shiftRu: 'О',
       },
       {
         keyEn: 'k',
         shiftEn: 'K',
-        code: 'keyRuK',
+        code: 'keyK',
         keyRu: 'л',
         shiftRu: 'Л',
       },
       {
         keyEn: 'l',
         shiftEn: 'L',
-        code: 'keyRuL',
+        code: 'keyL',
         keyRu: 'д',
         shiftRu: 'Д',
       },
@@ -933,49 +299,49 @@ const board = (function makeKeyboard(textField) {
       {
         keyEn: 'z',
         shiftEn: 'Z',
-        code: 'keyRuZ',
+        code: 'keyZ',
         keyRu: 'я',
         shiftRu: 'Я',
       },
       {
         keyEn: 'x',
         shiftEn: 'X',
-        code: 'keyRuX',
+        code: 'keyX',
         keyRu: 'ч',
         shiftRu: 'Ч',
       },
       {
         keyEn: 'c',
         shiftEn: 'C',
-        code: 'keyRuC',
+        code: 'keyC',
         keyRu: 'с',
         shiftRu: 'С',
       },
       {
         keyEn: 'v',
         shiftEn: 'V',
-        code: 'keyRuV',
+        code: 'keyV',
         keyRu: 'м',
         shiftRu: 'М',
       },
       {
         keyEn: 'b',
         shiftEn: 'B',
-        code: 'keyRuB',
+        code: 'keyB',
         keyRu: 'и',
         shiftRu: 'И',
       },
       {
         keyEn: 'n',
         shiftEn: 'N',
-        code: 'keyRuN',
+        code: 'keyN',
         keyRu: 'т',
         shiftRu: 'Т',
       },
       {
         keyEn: 'm',
         shiftEn: 'M',
-        code: 'keyRuM',
+        code: 'keyM',
         keyRu: 'ь',
         shiftRu: 'Ь',
       },
@@ -1059,13 +425,15 @@ const board = (function makeKeyboard(textField) {
       },
     ],
   ];
-  console.log(textField);
+  let language = lang;
 
+  // visual render of keyboard
   function makeButton(name, coords, className) {
     const button = document.createElement('div');
     button.classList.add('board-button');
     if (className) button.classList.add(className);
     if (coords) button.dataset.coords = coords;
+    // if(className === 'spec-button') {button.textContent = name}
     button.textContent = name;
     return button;
   }
@@ -1073,42 +441,180 @@ const board = (function makeKeyboard(textField) {
   function makeRowOfButtons(arrayOfButtons, rowIndex) {
     const buttonsRow = document.createElement('div');
     buttonsRow.classList.add('board-row');
-    arrayOfButtons.forEach((elem, i) => buttonsRow.append(makeButton(elem.keyEn, [rowIndex, i])));
+    arrayOfButtons.forEach((elem, i) => {
+      if (elem[`key${language}`].length > 1) {
+        buttonsRow.append(makeButton(elem.code, [rowIndex, i], 'spec-button'));
+      } else if (elem[`key${language}`] === ' ') {
+        buttonsRow.append(makeButton(elem[`key${language}`], [rowIndex, i], 'space-button'));
+      } else {
+        buttonsRow.append(makeButton(elem[`key${language}`], [rowIndex, i]));
+      }
+    });
 
     return buttonsRow;
   }
+  // visual changes on keyboard
+  let isCapChars = false;
+  function showShifted() {
+    const buttons = document.querySelectorAll('.board-button');
+    buttons.forEach((e) => {
+      const [x, y] = e.dataset.coords.split(',');
+      if (allButtons[x][y][`shift${language}`]) e.textContent = allButtons[x][y][`shift${language}`];
+    });
+  }
+  function hideShifted() {
+    const buttons = document.querySelectorAll('.board-button');
+    buttons.forEach((e) => {
+      const [x, y] = e.dataset.coords.split(',');
+      if (allButtons[x][y][`shift${language}`]) e.textContent = allButtons[x][y][`key${language}`];
+    });
+  }
+  function capsReaction(direction, shifted = false) {
+    const symbols = document.querySelectorAll('.board-button');
+    symbols.forEach((e) => {
+      const [x, y] = e.dataset.coords.split(',');
+      if (direction === 'up') {
+        if (allButtons[x][y].code.includes('key')) {
+          e.textContent = allButtons[x][y][`shift${language}`];
+          isCapChars = true;
+        }
+      } else if (allButtons[x][y].code.includes('key')) {
+        e.textContent = allButtons[x][y][`key${language}`];
+        isCapChars = !!shifted;
+      }
+    });
+  }
+  // special buttons keyboard reaction
+  function turnOnShift() {
+    if (isCapChars) {
+      showShifted();
+      capsReaction('down', true);
+    } else {
+      showShifted();
+    }
+  }
+  function turnOffShift() {
+    if (isCapChars) {
+      hideShifted();
+      capsReaction('up');
+    } else {
+      hideShifted();
+    }
+  }
+  function turnOnCaps() {
+    if (isCapChars) {
+      capsReaction('down');
+    } else {
+      capsReaction('up');
+    }
 
+    console.log('caps');
+  }
+  function changeLanguage() {
+    language = language === 'En' ? 'Ru' : 'En';
+    const buttons = document.querySelectorAll('.board-button');
+    buttons.forEach((e) => {
+      const [x, y] = e.dataset.coords.split(',');
+      if (allButtons[x][y][`key${language}`].length > 1) {
+        e.textContent = allButtons[x][y].code;
+      } else {
+        e.textContent = allButtons[x][y][`key${language}`];
+      }
+    });
+  }
+  // special buttons mouse reaction
+  function runSpecialButtonByMouse(target) {
+    console.log(target);
+  }
+  // base functions
+  // function getAChar(coords, shift = false) {
+  //   const [x, y] = coords.split(',');
+  //   let char;
+  //   if (shift) {
+  //     char = allButtons[x][y][`shift${language}`];
+  //   } else {
+  //     char = allButtons[x][y][`key${language}`];
+  //   } return char;
+  // }
+  // regulation of mouse and keyboard control
   function mouseClickOnBoard(e) {
     if (!e.target.classList.contains('board-button')) return;
-    const textarea = document.querySelector('textarea');
-    // textField(e.target.textContent);
-    textarea.textContent += e.target.textContent;
+    if (e.target.classList.contains('spec-button')) {
+      runSpecialButtonByMouse(e.target);
+    } else {
+      const textarea = document.querySelector('textarea');
+      const [x, y] = e.target.dataset.coords.split(',');
+      if (e.shiftKey) {
+        textarea.value += allButtons[x][y][`shift${language}`];
+      } else {
+        textarea.value += allButtons[x][y][`key${language}`];
+      }
+    }
   }
 
   function keyboardOnDown(e) {
-    const buttons = document.querySelectorAll('.board-button');
-    buttons.forEach((elem) => {
-      if (elem.textContent === e.key) elem.classList.add('active');
-    });
-    console.log(e.key);
+    console.log(e);
+    if (e.key.length > 1) {
+      const spec = document.querySelectorAll('.spec-button');
+      spec.forEach((elem) => {
+        if (elem.textContent === e.code) elem.classList.add('active');
+        if (e.code === elem.textContent && elem.textContent === 'CapsLock') elem.classList.toggle('caps');
+      });
+      if (e.code.toLowerCase().includes('shift')) turnOnShift(e);
+      if (e.code.toLowerCase().includes('caps')) turnOnCaps(e);
+    } else {
+      const buttons = document.querySelectorAll('.board-button');
+      buttons.forEach((elem) => {
+        if (elem.textContent === e.key) elem.classList.add('active');
+      });
+    }
+    if (e.code === 'AltLeft' && e.ctrlKey) {
+      changeLanguage();
+    }
   }
 
   function keyboardOnUp(e) {
-    const buttons = document.querySelectorAll('.board-button');
-    buttons.forEach((elem) => {
-      if (elem.textContent === e.key) elem.classList.remove('active');
-    });
-    console.log(e.key);
+    if (e.key.length > 1) {
+      const spec = document.querySelectorAll('.spec-button');
+      spec.forEach((elem) => {
+        if (elem.textContent === e.code) elem.classList.remove('active');
+      });
+      if (e.code.toLowerCase().includes('shift')) turnOffShift(e);
+    } else {
+      const buttons = document.querySelectorAll('.board-button');
+      buttons.forEach((elem) => {
+        if (elem.textContent === e.key) elem.classList.remove('active');
+      });
+    }
   }
 
+  // Board creation and set of events
   function makeVirtualKeyboard() {
     const mainBlock = document.createElement('div');
     mainBlock.classList.add('board');
     allButtons.forEach((buttonsRow, i) => {
       mainBlock.append(makeRowOfButtons(buttonsRow, i));
     });
-    mainBlock.addEventListener('click', mouseClickOnBoard);
-    document.addEventListener('keydown', keyboardOnDown);
+    mainBlock.addEventListener('click', (e) => {
+      mouseClickOnBoard(e);
+    });
+    mainBlock.addEventListener('mousedown', (e) => {
+      if (!e.target.dataset.coords) return;
+      const [x, y] = e.target.dataset.coords.split(',');
+      if (allButtons[x][y][`key${language}`] !== 'Shift') return;
+      showShifted(e);
+    });
+    mainBlock.addEventListener('mouseup', (e) => {
+      if (!e.target.dataset.coords) return;
+      const [x, y] = e.target.dataset.coords.split(',');
+      if (allButtons[x][y][`key${language}`] !== 'Shift') return;
+      hideShifted(e);
+    });
+    document.addEventListener('keydown', (e) => {
+      const special = ['CapsLock', 'ShiftRight', 'ShiftLeft'];
+      if (e.repeat && special.includes(e.code)) return;
+      keyboardOnDown(e);
+    });
     document.addEventListener('keyup', keyboardOnUp);
 
     return mainBlock;
