@@ -5,8 +5,18 @@
   background-color: #853f3f5c;
   text-align: center;
 
+  transition: background-color 0.1s ease-in-out;
+
   user-select: none;
   cursor: pointer;
+}
+
+.board-button:hover {
+  background-color: #853f3fb3;
+}
+
+.board-button:active {
+  background-color: #f977775c;
 }
 
 .spec-button {
@@ -24,5 +34,9 @@
 }
 
 .caps {
+  background-color: #f831315c;
+}
+
+.caps:active {
   background-color: #f831315c;
 }
