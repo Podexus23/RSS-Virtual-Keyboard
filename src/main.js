@@ -1,3 +1,4 @@
+import './assets/fonts/Comfortaa-VariableFont_wght.ttf';
 import './style/main.scss';
 import board from './code/board';
 import textArea from './code/textarea';

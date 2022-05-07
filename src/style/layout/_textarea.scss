@@ -1,16 +1,23 @@
 textarea {
   background-color: $main-color;
-  width: 90%;
-  height: 20vh;
+  width: 95%;
+  height: 25vh;
   max-width: 1000px;
-  outline: 0;
-  transition: outline 0.2s ease-in-out;
+  transition: outline 0.1s ease-in-out;
+  resize: none;
 
   -moz-tab-size: 4;
   -o-tab-size: 4;
   tab-size: 4;
+
+  padding: 5px 5px;
+  font-family: 'Comfortaa', cursive;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  border: 1px solid #ff9797;
+  color: rgb(67, 67, 67);
 }
 
 textarea:focus-visible {
-  outline: 2px solid #696969;
+  outline: 2px solid #fbbaba;
 }
