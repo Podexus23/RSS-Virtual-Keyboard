@@ -478,7 +478,7 @@ const board = (function makeKeyboard(lang = 'En') {
         if (language === 'Ru'
         && (codeKey.includes('Bracket') || codeKey.includes('Semicolon')
         || codeKey.includes('Quote') || codeKey.includes('Comma')
-        || codeKey.includes('Period'))) {
+        || codeKey.includes('Period') || codeKey.includes('Backquote'))) {
           e.textContent = allButtons[x][y][`shift${language}`];
         }
         isCapChars = true;
@@ -488,7 +488,7 @@ const board = (function makeKeyboard(lang = 'En') {
         if (language === 'Ru'
           && (codeKey.includes('Bracket') || codeKey.includes('Semicolon')
           || codeKey.includes('Quote') || codeKey.includes('Comma')
-          || codeKey.includes('Period'))) {
+          || codeKey.includes('Period') || codeKey.includes('Backquote'))) {
           e.textContent = allButtons[x][y][`key${language}`];
         }
         isCapChars = shifted;
@@ -505,7 +505,33 @@ const board = (function makeKeyboard(lang = 'En') {
     textarea.selectionStart = start + 1;
     textarea.selectionEnd = start + 1;
   }
-  // special buttons reaction in textarea
+  function tabDown(e) {
+    if (e) e.preventDefault();
+    addCharOnTextArea('\t');
+  }
+  function enterDown(e) {
+    if (e) e.preventDefault();
+    addCharOnTextArea('\n');
+  }
+  function backspaceDown() {
+    const textarea = document.querySelector('textarea');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+
+    textarea.value = `${textarea.value.substring(0, start - 1)}${textarea.value.substring(end)}`;
+    textarea.selectionStart = start - 1;
+    textarea.selectionEnd = start - 1;
+  }
+  function deleteDown() {
+    const textarea = document.querySelector('textarea');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+
+    textarea.value = `${textarea.value.substring(0, start)}${textarea.value.substring(end + 1)}`;
+    textarea.selectionStart = start;
+    textarea.selectionEnd = start;
+  }
+  // special board reaction in textarea
   function turnOnShift() {
     if (isCapChars) {
       showShifted();
@@ -550,10 +576,6 @@ const board = (function makeKeyboard(lang = 'En') {
       }
     });
   }
-  function tabDown(e) {
-    if (e) e.preventDefault();
-    addCharOnTextArea('\t');
-  }
   function charKeyDown(e) {
     e.preventDefault();
     const buttons = document.querySelectorAll('.board-button');
@@ -565,14 +587,19 @@ const board = (function makeKeyboard(lang = 'En') {
       }
     });
   }
+
+  // keyboard simulation events
+  function metaEvent() {}
   // buttons mouse reaction in textarea
-  function runSpecialButtonByMouse(target) {
-    if (target.textContent === 'Tab') tabDown();
-    console.log(target);
+  function runSpecialButtonByMouse(event) {
+    if (event.target.textContent === 'Tab') tabDown(event);
+    if (event.target.textContent === 'Enter') enterDown(event);
+    if (event.target.textContent === 'Backspace') backspaceDown(event);
+    if (event.target.textContent === 'Delete') deleteDown(event);
+    if (event.target.textContent === 'MetaRight') metaEvent(event);
   }
   function clickOnChar(e) {
-    const textarea = document.querySelector('textarea');
-    textarea.value += e.target.textContent;
+    addCharOnTextArea(e.target.textContent);
   }
 
   // regulation of mouse and keyboard control
@@ -582,7 +609,7 @@ const board = (function makeKeyboard(lang = 'En') {
     textarea.focus();
 
     if (e.target.classList.contains('spec-button')) {
-      runSpecialButtonByMouse(e.target);
+      runSpecialButtonByMouse(e);
     } else {
       clickOnChar(e);
     }
@@ -623,8 +650,6 @@ const board = (function makeKeyboard(lang = 'En') {
 
     if (e.code === 'AltLeft' && e.ctrlKey) changeLanguage();
     if (e.code === 'ControlLeft' && e.altKey) changeLanguage();
-
-    console.log(isCapChars);
   }
 
   function keyboardOnUp(e) {
