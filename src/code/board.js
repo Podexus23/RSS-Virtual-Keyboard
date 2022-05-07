@@ -367,9 +367,9 @@ const board = (function makeKeyboard(lang = 'En') {
         shiftRu: ',',
       },
       {
-        keyEn: 'ArrowUp',
+        keyEn: '↑',
         code: 'ArrowUp',
-        keyRu: 'ArrowUp',
+        keyRu: '↑',
       },
       {
         keyEn: 'Shift',
@@ -404,19 +404,19 @@ const board = (function makeKeyboard(lang = 'En') {
         keyRu: 'AltGraph',
       },
       {
-        keyEn: 'ArrowLeft',
+        keyEn: '←',
         code: 'ArrowLeft',
-        keyRu: 'ArrowLeft',
+        keyRu: '←',
       },
       {
-        keyEn: 'ArrowDown',
+        keyEn: '↓',
         code: 'ArrowDown',
-        keyRu: 'ArrowDown',
+        keyRu: '↓',
       },
       {
-        keyEn: 'ArrowRight',
+        keyEn: '→',
         code: 'ArrowRight',
-        keyRu: 'ArrowRight',
+        keyRu: '→',
       },
       {
         keyEn: 'Control',
@@ -425,7 +425,6 @@ const board = (function makeKeyboard(lang = 'En') {
       },
     ],
   ];
-  // const enLetters = allButtons.map;
   let language = lang;
 
   // visual render of keyboard
@@ -578,6 +577,7 @@ const board = (function makeKeyboard(lang = 'En') {
   }
   function charKeyDown(e) {
     e.preventDefault();
+
     const buttons = document.querySelectorAll('.board-button');
 
     buttons.forEach((elem) => {
@@ -590,6 +590,11 @@ const board = (function makeKeyboard(lang = 'En') {
 
   // keyboard simulation events
   function metaEvent() {}
+  function capsLockOnMouse(e) {
+    e.target.classList.toggle('caps');
+    if (e.shiftKey) turnOnShiftCaps();
+    else turnOnCaps();
+  }
   // buttons mouse reaction in textarea
   function runSpecialButtonByMouse(event) {
     if (event.target.textContent === 'Tab') tabDown(event);
@@ -597,11 +602,13 @@ const board = (function makeKeyboard(lang = 'En') {
     if (event.target.textContent === 'Backspace') backspaceDown(event);
     if (event.target.textContent === 'Delete') deleteDown(event);
     if (event.target.textContent === 'MetaRight') metaEvent(event);
+    if (event.target.textContent === 'CapsLock') capsLockOnMouse(event);
+    if (event.target.dataset.coords.includes('AltLeft') && event.ctrlKey) changeLanguage();
+    if (event.target.dataset.coords.includes('ControlLeft') && event.altKey) changeLanguage();
   }
   function clickOnChar(e) {
     addCharOnTextArea(e.target.textContent);
   }
-
   // regulation of mouse and keyboard control
   function mouseClickOnBoard(e) {
     if (!e.target.classList.contains('board-button')) return;
@@ -614,9 +621,28 @@ const board = (function makeKeyboard(lang = 'En') {
       clickOnChar(e);
     }
   }
-
+  function mouseDownSpecial(e) {
+    if (!e.target.classList.contains('board-button')) return;
+    if (e.target.dataset.coords.includes('ShiftLeft')
+    || e.target.dataset.coords.includes('ShiftRight')) {
+      e.target.classList.toggle('active');
+      if (document.querySelector('.caps')) {
+        turnOnShift();
+      } else { turnOnShift(); }
+    }
+  }
+  function mouseUpSpecial(e) {
+    if (!e.target.classList.contains('board-button')) return;
+    if (e.target.dataset.coords.includes('ShiftLeft')
+    || e.target.dataset.coords.includes('ShiftRight')) {
+      e.target.classList.toggle('active');
+      if (document.querySelector('.caps')) {
+        turnOffShift();
+      } else { turnOffShift(); }
+    }
+  }
   function keyboardOnDown(e) {
-    const special = ['CapsLock', 'ShiftRight', 'ShiftLeft', 'ControlLeft', 'ControlRight', 'Tab'];
+    const special = ['CapsLock', 'ShiftRight', 'ShiftLeft', 'ControlLeft', 'ControlRight', 'Tab', 'AltLeft', 'AltRight'];
     const textarea = document.querySelector('textarea');
 
     if (e.repeat && special.includes(e.code)) {
@@ -624,23 +650,33 @@ const board = (function makeKeyboard(lang = 'En') {
       textarea.focus();
       return;
     }
-    console.log(e);
+
     if (e.code === 'Tab') tabDown(e);
     if (e.key.length === 1) charKeyDown(e);
+    if (e.key.includes('Arrow')) charKeyDown(e);
     textarea.focus();
-
+    const spec = document.querySelectorAll('.spec-button');
+    const buttons = document.querySelectorAll('.board-button');
+    const activeShift = Array.from(document.querySelectorAll('.active'))
+      .filter((act) => act.dataset.coords.includes('Shift'));
     if (e.key.length > 1) {
-      const spec = document.querySelectorAll('.spec-button');
       spec.forEach((elem) => {
         if (elem.textContent === e.code) elem.classList.add('active');
         if (e.code === elem.textContent && elem.textContent === 'CapsLock') elem.classList.toggle('caps');
       });
+      if (e.key.includes('Arrow')) {
+        buttons.forEach((elem) => {
+          if (e.code.toLowerCase() === elem.dataset.coords.split(',')[2].toLowerCase()) {
+            elem.classList.add('active');
+          }
+        });
+      }
       if (e.code.toLowerCase().includes('shift')) turnOnShift(e);
-      if (e.code.toLowerCase().includes('caps') && e.shiftKey) {
+      if ((e.code.toLowerCase().includes('caps') && e.shiftKey)
+       || (e.code.toLowerCase().includes('caps') && activeShift.length > 0)) {
         turnOnShiftCaps(e);
       } else if (e.code.toLowerCase().includes('caps')) turnOnCaps(e);
     } else {
-      const buttons = document.querySelectorAll('.board-button');
       buttons.forEach((elem) => {
         if (e.code.toLowerCase() === elem.dataset.coords.split(',')[2].toLowerCase()) {
           elem.classList.add('active');
@@ -651,25 +687,29 @@ const board = (function makeKeyboard(lang = 'En') {
     if (e.code === 'AltLeft' && e.ctrlKey) changeLanguage();
     if (e.code === 'ControlLeft' && e.altKey) changeLanguage();
   }
-
   function keyboardOnUp(e) {
-    if (e.key.length > 1) {
-      const spec = document.querySelectorAll('.spec-button');
+    const spec = document.querySelectorAll('.spec-button');
+    const buttons = document.querySelectorAll('.board-button');
 
+    if (e.key.length > 1) {
       spec.forEach((elem) => {
         if (elem.textContent === e.code) elem.classList.remove('active');
       });
+      if (e.key.includes('Arrow')) {
+        buttons.forEach((elem) => {
+          if (e.code.toLowerCase() === elem.dataset.coords.split(',')[2].toLowerCase()) {
+            elem.classList.remove('active');
+          }
+        });
+      }
       if (e.code.toLowerCase().includes('shift')) turnOffShift(e);
     } else {
-      const buttons = document.querySelectorAll('.board-button');
-
       buttons.forEach((elem) => {
         const coords = elem.dataset.coords.split(',');
         if (e.code.toLowerCase() === coords[2].toLowerCase()) elem.classList.remove('active');
       });
     }
   }
-
   // Board creation and set of events
   function makeVirtualKeyboard() {
     const mainBlock = document.createElement('div');
@@ -679,6 +719,8 @@ const board = (function makeKeyboard(lang = 'En') {
     });
 
     mainBlock.addEventListener('click', mouseClickOnBoard);
+    mainBlock.addEventListener('mousedown', mouseDownSpecial);
+    mainBlock.addEventListener('mouseup', mouseUpSpecial);
     document.addEventListener('keydown', keyboardOnDown);
     document.addEventListener('keyup', keyboardOnUp);
 
