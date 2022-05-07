@@ -100,9 +100,9 @@ const board = (function makeKeyboard(lang = 'En') {
     ],
     [
       {
-        keyEn: 'Tab',
+        keyEn: 'Tab ⇆',
         code: 'Tab',
-        keyRu: 'Tab',
+        keyRu: 'Tab ⇆',
       },
       {
         keyEn: 'q',
@@ -292,9 +292,9 @@ const board = (function makeKeyboard(lang = 'En') {
     ],
     [
       {
-        keyEn: 'Shift',
+        keyEn: '⇧ Shift',
         code: 'ShiftLeft',
-        keyRu: 'Shift',
+        keyRu: '⇧ Shift',
       },
       {
         keyEn: 'z',
@@ -372,9 +372,9 @@ const board = (function makeKeyboard(lang = 'En') {
         keyRu: '↑',
       },
       {
-        keyEn: 'Shift',
+        keyEn: '⇧ Shift',
         code: 'ShiftRight',
-        keyRu: 'Shift',
+        keyRu: '⇧ Shift',
       },
     ],
     [
@@ -384,9 +384,9 @@ const board = (function makeKeyboard(lang = 'En') {
         keyRu: 'Control',
       },
       {
-        keyEn: 'Meta',
-        code: 'MetaRight',
-        keyRu: 'Meta',
+        keyEn: 'Win',
+        code: 'MetaLeft',
+        keyRu: 'Win',
       },
       {
         keyEn: 'Alt',
@@ -401,7 +401,7 @@ const board = (function makeKeyboard(lang = 'En') {
       {
         keyEn: 'Alt',
         code: 'AltRight',
-        keyRu: 'AltGraph',
+        keyRu: 'Alt',
       },
       {
         keyEn: '←',
@@ -441,7 +441,7 @@ const board = (function makeKeyboard(lang = 'En') {
     buttonsRow.classList.add('board-row');
     arrayOfButtons.forEach((elem, i) => {
       if (elem[`key${language}`].length > 1) {
-        buttonsRow.append(makeButton(elem.code, [rowIndex, i, elem.code], 'spec-button'));
+        buttonsRow.append(makeButton(elem[`key${language}`], [rowIndex, i, elem.code], 'spec-button'));
       } else if (elem[`key${language}`] === ' ') {
         buttonsRow.append(makeButton(elem[`key${language}`], [rowIndex, i, elem.code], 'space-button'));
       } else {
@@ -569,7 +569,7 @@ const board = (function makeKeyboard(lang = 'En') {
     buttons.forEach((e) => {
       const [x, y] = e.dataset.coords.split(',');
       if (allButtons[x][y][`key${language}`].length > 1) {
-        e.textContent = allButtons[x][y].code;
+        e.textContent = allButtons[x][y][`key${language}`];
       } else {
         e.textContent = allButtons[x][y][`key${language}`];
       }
@@ -597,12 +597,13 @@ const board = (function makeKeyboard(lang = 'En') {
   }
   // buttons mouse reaction in textarea
   function runSpecialButtonByMouse(event) {
-    if (event.target.textContent === 'Tab') tabDown(event);
-    if (event.target.textContent === 'Enter') enterDown(event);
-    if (event.target.textContent === 'Backspace') backspaceDown(event);
-    if (event.target.textContent === 'Delete') deleteDown(event);
-    if (event.target.textContent === 'MetaRight') metaEvent(event);
-    if (event.target.textContent === 'CapsLock') capsLockOnMouse(event);
+    const codeKey = event.target.dataset.coords.split(',')[2];
+    if (codeKey === 'Tab') tabDown(event);
+    if (codeKey === 'Enter') enterDown(event);
+    if (codeKey === 'Backspace') backspaceDown(event);
+    if (codeKey === 'Delete') deleteDown(event);
+    if (codeKey === 'MetaRight') metaEvent(event);
+    if (codeKey === 'CapsLock') capsLockOnMouse(event);
     if (event.target.dataset.coords.includes('AltLeft') && event.ctrlKey) changeLanguage();
     if (event.target.dataset.coords.includes('ControlLeft') && event.altKey) changeLanguage();
   }
@@ -642,7 +643,8 @@ const board = (function makeKeyboard(lang = 'En') {
     }
   }
   function keyboardOnDown(e) {
-    const special = ['CapsLock', 'ShiftRight', 'ShiftLeft', 'ControlLeft', 'ControlRight', 'Tab', 'AltLeft', 'AltRight'];
+    const special = ['CapsLock', 'ShiftRight', 'ShiftLeft',
+      'ControlLeft', 'ControlRight', 'Tab', 'AltLeft', 'AltRight'];
     const textarea = document.querySelector('textarea');
 
     if (e.repeat && special.includes(e.code)) {
@@ -661,8 +663,9 @@ const board = (function makeKeyboard(lang = 'En') {
       .filter((act) => act.dataset.coords.includes('Shift'));
     if (e.key.length > 1) {
       spec.forEach((elem) => {
-        if (elem.textContent === e.code) elem.classList.add('active');
-        if (e.code === elem.textContent && elem.textContent === 'CapsLock') elem.classList.toggle('caps');
+        const codeKey = elem.dataset.coords.split(',')[2];
+        if (codeKey === e.code) elem.classList.add('active');
+        if (e.code === codeKey && codeKey === 'CapsLock') elem.classList.toggle('caps');
       });
       if (e.key.includes('Arrow')) {
         buttons.forEach((elem) => {
@@ -693,7 +696,8 @@ const board = (function makeKeyboard(lang = 'En') {
 
     if (e.key.length > 1) {
       spec.forEach((elem) => {
-        if (elem.textContent === e.code) elem.classList.remove('active');
+        const codeKey = elem.dataset.coords.split(',')[2];
+        if (codeKey === e.code) elem.classList.remove('active');
       });
       if (e.key.includes('Arrow')) {
         buttons.forEach((elem) => {
