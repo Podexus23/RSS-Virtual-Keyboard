@@ -427,6 +427,10 @@ const board = (function makeKeyboard(lang = 'En') {
   ];
   let language = lang;
 
+  const mainBlock = document.createElement('div');
+  mainBlock.classList.add('board');
+  mainBlock.dataset.lang = language;
+
   // visual render of keyboard
   function makeButton(name, coords, className) {
     const button = document.createElement('div');
@@ -565,6 +569,7 @@ const board = (function makeKeyboard(lang = 'En') {
   }
   function changeLanguage() {
     language = language === 'En' ? 'Ru' : 'En';
+    mainBlock.dataset.lang = language;
     const buttons = document.querySelectorAll('.board-button');
     buttons.forEach((e) => {
       const [x, y] = e.dataset.coords.split(',');
@@ -715,23 +720,18 @@ const board = (function makeKeyboard(lang = 'En') {
     }
   }
   // Board creation and set of events
-  function makeVirtualKeyboard() {
-    const mainBlock = document.createElement('div');
-    mainBlock.classList.add('board');
-    allButtons.forEach((buttonsRow, i) => {
-      mainBlock.append(makeRowOfButtons(buttonsRow, i));
-    });
 
-    mainBlock.addEventListener('click', mouseClickOnBoard);
-    mainBlock.addEventListener('mousedown', mouseDownSpecial);
-    mainBlock.addEventListener('mouseup', mouseUpSpecial);
-    document.addEventListener('keydown', keyboardOnDown);
-    document.addEventListener('keyup', keyboardOnUp);
+  allButtons.forEach((buttonsRow, i) => {
+    mainBlock.append(makeRowOfButtons(buttonsRow, i));
+  });
 
-    return mainBlock;
-  }
+  mainBlock.addEventListener('click', mouseClickOnBoard);
+  mainBlock.addEventListener('mousedown', mouseDownSpecial);
+  mainBlock.addEventListener('mouseup', mouseUpSpecial);
+  document.addEventListener('keydown', keyboardOnDown);
+  document.addEventListener('keyup', keyboardOnUp);
 
-  return makeVirtualKeyboard();
+  return mainBlock;
 });
 
 export default board;

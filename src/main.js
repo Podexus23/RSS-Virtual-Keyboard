@@ -3,6 +3,11 @@ import './style/main.scss';
 import board from './code/board';
 import textArea from './code/textarea';
 
+document.addEventListener('DOMContentLoaded', () => {
+  console.log(localStorage);
+  if (localStorage.length === 0) localStorage.lang = 'En';
+});
+
 const renderPage = (function renderMainPage() {
   const { body } = document;
   const { mainArea } = textArea();
@@ -16,10 +21,15 @@ const renderPage = (function renderMainPage() {
   }
   const { howToChange, workingOS } = addMessages();
   body.append(mainArea);
-  body.append(board());
+  body.append(board(localStorage.lang));
 
   body.append(howToChange);
   body.append(workingOS);
 });
 
 renderPage();
+
+window.addEventListener('unload', () => {
+  const langFromBoard = document.querySelector('.board').dataset.lang;
+  localStorage.lang = langFromBoard;
+});
