@@ -4,8 +4,8 @@ import board from './code/board';
 import textArea from './code/textarea';
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log(localStorage);
-  if (localStorage.length === 0) localStorage.lang = 'En';
+  if (localStorage.Podexus23RSlang) return;
+  localStorage.Podexus23RSlang = 'En';
 });
 
 const renderPage = (function renderMainPage() {
@@ -21,7 +21,7 @@ const renderPage = (function renderMainPage() {
   }
   const { howToChange, workingOS } = addMessages();
   body.append(mainArea);
-  body.append(board(localStorage.lang));
+  body.append(board(localStorage.Podexus23RSlang));
 
   body.append(howToChange);
   body.append(workingOS);
@@ -31,5 +31,5 @@ renderPage();
 
 window.addEventListener('unload', () => {
   const langFromBoard = document.querySelector('.board').dataset.lang;
-  localStorage.lang = langFromBoard;
+  localStorage.Podexus23RSlang = langFromBoard;
 });
