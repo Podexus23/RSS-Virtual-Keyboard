@@ -431,7 +431,6 @@ const board = (function makeKeyboard(lang = 'En') {
   mainBlock.classList.add('board');
   mainBlock.dataset.lang = language;
 
-  // visual render of keyboard
   function makeButton(name, coords, className) {
     const button = document.createElement('div');
     button.classList.add('board-button');
@@ -455,7 +454,6 @@ const board = (function makeKeyboard(lang = 'En') {
 
     return buttonsRow;
   }
-  // visual changes on keyboard
   let isCapChars = false;
 
   function showShifted() {
@@ -499,7 +497,7 @@ const board = (function makeKeyboard(lang = 'En') {
       }
     });
   }
-  // base moves
+
   function isShifted() {
     const mouse = Array.from(document.querySelectorAll('.active'))
       .filter((elem) => elem.dataset.coords.includes('Shift'));
@@ -545,7 +543,7 @@ const board = (function makeKeyboard(lang = 'En') {
     textarea.selectionStart = start;
     textarea.selectionEnd = start;
   }
-  // special board reaction in textarea
+
   function turnOnShift() {
     if (isCapChars) {
       showShifted();
@@ -603,7 +601,6 @@ const board = (function makeKeyboard(lang = 'En') {
       }
     });
   }
-  // keyboard simulation events
   function metaEvent() {}
   function capsLockOnMouse(e) {
     if (e.type === 'mousedown') e.target.classList.toggle('caps');
@@ -612,7 +609,6 @@ const board = (function makeKeyboard(lang = 'En') {
     if (e.shiftKey) turnOnShiftCaps();
     else turnOnCaps();
   }
-  // buttons mouse reaction in textarea
   function runSpecialButtonByMouse(event) {
     const codeKey = event.target.dataset.coords.split(',')[2];
     if (codeKey === 'Tab') tabDown(event);
@@ -626,7 +622,6 @@ const board = (function makeKeyboard(lang = 'En') {
   function clickOnChar(e) {
     addCharOnTextArea(e.target.textContent);
   }
-  // regulation of mouse and keyboard control
   function mouseClickOnBoard(e) {
     if (!e.target.classList.contains('board-button')) return;
     const textarea = document.querySelector('textarea');
@@ -732,7 +727,6 @@ const board = (function makeKeyboard(lang = 'En') {
       });
     }
   }
-  // Board creation and set of events
 
   allButtons.forEach((buttonsRow, i) => {
     mainBlock.append(makeRowOfButtons(buttonsRow, i));
