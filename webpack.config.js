@@ -1,8 +1,6 @@
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
 const DIST_DIR = path.resolve(__dirname, 'dist');
@@ -31,7 +29,6 @@ module.exports = (env) => ({
       title: 'RSS Virtual Keyboard',
       favicon: './src/assets/favicon/logo.png',
     }),
-    new MiniCssExtractPlugin(),
     new ESLintPlugin({
       exclude: ['node_modules', 'dist'],
     }),
@@ -41,7 +38,7 @@ module.exports = (env) => ({
       {
         test: /\.(sa|sc|c)ss$/i,
         use: [
-          env.mode === 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'style-loader',
           'css-loader',
           'postcss-loader',
           'sass-loader',
