@@ -1,6 +1,7 @@
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
@@ -28,6 +29,7 @@ module.exports = (env) => ({
   plugins: [
     new HtmlWebpackPlugin({
       title: 'RSS Virtual Keyboard',
+      favicon: './src/assets/favicon/logo.png',
     }),
     new MiniCssExtractPlugin(),
     new ESLintPlugin({
