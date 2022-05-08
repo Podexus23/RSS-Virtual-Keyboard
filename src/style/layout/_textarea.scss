@@ -17,9 +17,16 @@ textarea {
   border-radius: 10px;
   border: 1px solid #ff9797;
   color: rgb(67, 67, 67);
-  BOX-SHADOW: 0px 0px 10px 0px #ffffff;
+  BOX-SHADOW: 0px 0px 10px 0px #fbbaba;
 }
 
 textarea:focus-visible {
   outline: 2px solid #fbbaba;
+}
+
+p {
+  background-color: rgba(255, 255, 255, 0.77);
+  padding: 10px;
+  border: 2px dotted #fbbaba;
+  border-radius: 10px;
 }

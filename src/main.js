@@ -2,13 +2,17 @@ import './assets/fonts/Comfortaa-VariableFont_wght.ttf';
 import './style/main.scss';
 import board from './code/board';
 import textArea from './code/textarea';
+import backColorizer from './code/backgroundColorizer';
 
 document.addEventListener('DOMContentLoaded', () => {
   if (localStorage.Podexus23RSlang) return;
   localStorage.Podexus23RSlang = 'En';
 });
 
-const renderPage = (function renderMainPage() {
+(function renderMainPage() {
+  const keyboard = document.createElement('div');
+  keyboard.classList.add('keyboard-wrapper');
+
   const { body } = document;
   const { mainArea } = textArea();
 
@@ -20,14 +24,15 @@ const renderPage = (function renderMainPage() {
     return { howToChange, workingOS };
   }
   const { howToChange, workingOS } = addMessages();
-  body.append(mainArea);
-  body.append(board(localStorage.Podexus23RSlang));
 
-  body.append(howToChange);
-  body.append(workingOS);
-});
+  keyboard.append(mainArea);
+  keyboard.append(board(localStorage.Podexus23RSlang));
+  keyboard.append(howToChange);
+  keyboard.append(workingOS);
 
-renderPage();
+  body.append(backColorizer());
+  body.append(keyboard);
+}());
 
 window.addEventListener('unload', () => {
   const langFromBoard = document.querySelector('.board').dataset.lang;
