@@ -3,6 +3,7 @@ import './style/main.scss';
 import board from './code/board';
 import textArea from './code/textarea';
 import backColorizer from './code/backgroundColorizer';
+import infoBlock from './code/infoBlock';
 
 document.addEventListener('DOMContentLoaded', () => {
   if (localStorage.Podexus23RSlang) return;
@@ -16,22 +17,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const { body } = document;
   const { mainArea } = textArea();
 
-  function addMessages() {
-    const howToChange = document.createElement('p');
-    const workingOS = document.createElement('p');
-    howToChange.innerHTML = 'To change language press Ctrl Left + Alt Left';
-    workingOS.innerHTML = 'Keyboard made for Windows OS';
-    return { howToChange, workingOS };
-  }
-  const { howToChange, workingOS } = addMessages();
+  const { mainBlock, changeLanguage } = board(localStorage.Podexus23RSlang);
+  const info = infoBlock();
 
   keyboard.append(mainArea);
-  keyboard.append(board(localStorage.Podexus23RSlang));
-  keyboard.append(howToChange);
-  keyboard.append(workingOS);
+  keyboard.append(mainBlock);
+  keyboard.append(info);
 
   body.append(backColorizer());
   body.append(keyboard);
+
+  const langButtons = document.querySelectorAll('.info-button');
+
+  function checkLang() {
+    const langFromBoard = document.querySelector('.board').dataset.lang;
+    if (langFromBoard === 'En') {
+      langButtons[0].classList.add('active-lng');
+      langButtons[1].classList.remove('active-lng');
+    } else {
+      langButtons[1].classList.add('active-lng');
+      langButtons[0].classList.remove('active-lng');
+    }
+  }
+
+  setInterval(checkLang, 10);
+
+  function buttonOnClick(e) {
+    if (e.target.classList.contains('active-lng')) return;
+    changeLanguage();
+    langButtons.forEach((elem) => elem.classList.toggle('active-lng'));
+  }
+  langButtons.forEach((elem) => elem.addEventListener('click', buttonOnClick));
 }());
 
 window.addEventListener('unload', () => {

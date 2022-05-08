@@ -744,7 +744,7 @@ const board = (function makeKeyboard(lang = 'En') {
   document.addEventListener('keydown', keyboardOnDown);
   document.addEventListener('keyup', keyboardOnUp);
 
-  return mainBlock;
+  return { mainBlock, changeLanguage };
 });
 
 export default board;
