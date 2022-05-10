@@ -1,0 +1,41 @@
+{
+  "name": "rss-virtual-keyboard",
+  "version": "1.0.0",
+  "description": "virtual Keyboard as RSS task",
+  "main": "./src/main.js",
+  "scripts": {
+    "start": "webpack serve --env mode=development --open",
+    "test": "webpack serve --env mode=production --open",
+    "dev": "webpack build --env mode=development",
+    "prod": "webpack build --env mode=production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Podexus23/RSS-Virtual-Keyboard.git"
+  },
+  "author": "Podexus23",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Podexus23/RSS-Virtual-Keyboard/issues"
+  },
+  "homepage": "https://github.com/Podexus23/RSS-Virtual-Keyboard#readme",
+  "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "babel-loader": "^8.2.5",
+    "css-loader": "^6.7.1",
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-webpack-plugin": "^3.1.1",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "postcss-loader": "^6.2.1",
+    "sass": "^1.51.0",
+    "sass-loader": "^12.6.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.8.1"
+  }
+}

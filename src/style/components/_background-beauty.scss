@@ -1,0 +1,15 @@
+.background-beauty {
+  position: absolute;
+  z-index: 0;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  align-content: space-between;
+  justify-content: space-between;
+}
+
+.b-block {
+  opacity: 0;
+  filter: blur(3px);
+}
