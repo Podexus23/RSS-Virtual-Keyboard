@@ -634,9 +634,9 @@ const board = (function makeKeyboard(lang = 'En') {
     }
   }
   function mouseDownSpecial(e) {
+    if (!e.target.classList.contains('board-button')) return;
     const codeKey = e.target.dataset.coords.split(',')[2];
     if (codeKey === 'CapsLock') capsLockOnMouse(e);
-    if (!e.target.classList.contains('board-button')) return;
     if (e.target.dataset.coords.includes('ShiftLeft')
     || e.target.dataset.coords.includes('ShiftRight')) {
       e.target.classList.toggle('active');
